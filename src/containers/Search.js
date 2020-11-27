@@ -20,7 +20,7 @@ const Search = ({ getShelfNameForBook, onShelfChange }) => {
   const formatBook = (bookFromAPI) => {
     return {
       ..._.pick(bookFromAPI, ['title', 'authors', 'id']),
-      cover: bookFromAPI.imageLinks.smallThumbnail,
+      cover: bookFromAPI.imageLinks?.smallThumbnail,
     };
   };
 
