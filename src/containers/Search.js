@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 import * as _ from 'lodash';
 
@@ -23,15 +23,18 @@ const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) 
     };
   };
 
-  const onSearchTermChange = async (searchTerm) => {
-    let results = [];
-    results = await BookAPI.search(searchTerm);
-    if (results.error) {
-      setSearchResults([]);
-    } else {
-      setSearchResults(results.map(formatBook));
+  const onSearchTermChange = useCallback(async (searchTerm) => {
+    let newBooks = [];
+
+    if (searchTerm.length) {
+      const results = await BookAPI.search(searchTerm);
+      if (!results.error) {
+        newBooks = results.map(formatBook);
+      }
     }
-  }
+
+    setSearchResults(newBooks);
+  }, []);
 
   return (
     <div className="search-books">
@@ -53,7 +56,7 @@ const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) 
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          { searchResults.length && searchResults.map(book => {
+          { searchResults.length !== 0 && searchResults.map(book => {
               return (
                 <li key={book.id}>
                   <BookCard

@@ -5,10 +5,10 @@ const SearchField = ({ onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    if (searchTerm.length >= 3) {
+    if (searchTerm.length >= 3 || searchTerm.length === 0) {
       onSearchTermChange(searchTerm)
     }
-  }, [searchTerm]);
+  }, [searchTerm, onSearchTermChange]);
 
   return (
     <input

@@ -7,7 +7,8 @@ const BookShelf = ({ title, shelfValue, books, onShelfChange }) => {
       { title && <h2 className="bookshelf-title">{title}</h2> }
       <div className="bookshelf-books">
         <ol className="books-grid">
-          { books.map(book => {
+          { books.length === 0 && 'Empty Shelf' }
+          { books.length !== 0 && books.map(book => {
               return (
                 <li key={book.id}>
                   <BookCard

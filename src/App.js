@@ -121,4 +121,4 @@ const BooksApp = () => {
   )
 }
 
-export default BooksApp
+export default BooksApp;
