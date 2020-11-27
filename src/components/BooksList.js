@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import BookShelf from './BookShelf';
 import { BOOKSHELFS } from '../constants';
@@ -32,7 +33,9 @@ const BooksList = ({ appTitle, onShelfChange, currentlyReadingBooks, wantToReadB
         </div>
       </div>
       <div className="open-search">
-        <button onClick={onShowSearchPage}>Add a book</button>
+        <Link to="/search">
+          <button>Add a book</button>
+        </Link>
       </div>
     </div>
   )
@@ -51,7 +54,6 @@ BooksList.propTypes = {
   wantToReadBooks: PropTypes.arrayOf(PropTypes.shape(BookShape)),
   readBooks: PropTypes.arrayOf(PropTypes.shape(BookShape)),
   onShelfChange: PropTypes.func.isRequired,
-  onShowSearchPage: PropTypes.func.isRequired, // TODO: Replace with react-router
 }
 
 export default BooksList;

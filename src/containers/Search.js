@@ -7,8 +7,9 @@ import * as BookAPI from '../BooksAPI';
 
 import BookCard from '../components/BookCard';
 import SearchField from '../components/SearchField';
+import { Link } from 'react-router-dom';
 
-const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) => {
+const Search = ({ getShelfNameForBook, onShelfChange }) => {
   const [searchResults, setSearchResults] = useState([]);
 
   const onShelfChangeWithBookObject = (oldShelf, newShelf, bookId) => {
@@ -39,7 +40,10 @@ const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) 
   return (
     <div className="search-books">
       <div className="search-books-bar">
-        <button className="close-search" onClick={onShowBooksShelvesPage}>Close</button>
+        <Link to="/">
+          <button className="close-search">Close</button>
+        </Link>
+
         <div className="search-books-input-wrapper">
           {/*
             NOTES: The search from BooksAPI is limited to a particular set of search terms.
@@ -79,7 +83,6 @@ const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) 
 Search.propTypes = {
   getShelfNameForBook: PropTypes.func.isRequired,
   onShelfChange: PropTypes.func.isRequired,
-  onShowBooksShelvesPage: PropTypes.func.isRequired,
 };
 
 export default Search;

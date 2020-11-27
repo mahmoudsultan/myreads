@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './App.css'
 
@@ -19,13 +20,6 @@ const useCachedState = (cacheKey, initialValue={}) => {
 };
 
 const BooksApp = () => {
-  /**
-   * TODO: Instead of using this state variable to keep track of which page
-   * we're on, use the URL in the browser's address bar. This will ensure that
-   * users can use the browser's back and forward buttons to navigate between
-   * pages, as well as provide a good URL they can bookmark and share.
-   */
-  const [showSearchPage, setShowSearchPage] = useState(false);
   const [currentlyReadingBooks, setCurrentlyReadingBooks] = useCachedState('currentlyReading', {});
   const [wantToReadBooks, setWantToReadBooks] = useCachedState('wantToRead', {});
   const [readBooks, setReadBooks] = useCachedState('readBooks', {});
@@ -91,32 +85,29 @@ const BooksApp = () => {
     }
   }
 
-  const onShowBooksShelvesPage  = () => {
-    setShowSearchPage(false);
-  }
-
-  const onShowSearchPage = () => {
-    setShowSearchPage(true);
-  }
-
   return (
     <div className="app">
-      {showSearchPage ? (
-        <Search 
-          getShelfNameForBook={getShelfNameForBook}
-          onShelfChange={onShelfChange}
-          onShowBooksShelvesPage={onShowBooksShelvesPage}
-        />
-      ) : (
-        <BooksList
-          appTitle={APP_TITLE}
-          currentlyReadingBooks={Object.values(currentlyReadingBooks)}
-          wantToReadBooks={Object.values(wantToReadBooks)}
-          readBooks={Object.values(readBooks)}
-          onShelfChange={onShelfChange}
-          onShowSearchPage={onShowSearchPage}
-        />
-      )}
+      <Router>
+        <Switch>
+          <Route path="/" exact render={(props) => (
+            <BooksList
+              { ...props }
+              appTitle={APP_TITLE}
+              currentlyReadingBooks={Object.values(currentlyReadingBooks)}
+              wantToReadBooks={Object.values(wantToReadBooks)}
+              readBooks={Object.values(readBooks)}
+              onShelfChange={onShelfChange}
+            />
+          )} />
+          <Route path="/search" render={(props) => (
+            <Search 
+              { ...props }
+              getShelfNameForBook={getShelfNameForBook}
+              onShelfChange={onShelfChange}
+            />
+          )} />
+        </Switch>
+      </Router>
     </div>
   )
 }
