@@ -1,3 +1,5 @@
+export const APP_TITLE = 'MyReads';
+
 export const BOOKSHELFS = {
   CURRENTLY_READING: 'CURRENTLY_READING',
   WANT_TO_READ: 'WANT_TO_READ',

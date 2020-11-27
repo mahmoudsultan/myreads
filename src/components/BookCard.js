@@ -9,7 +9,7 @@ const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => 
       <div className="book-top">
         <div role="img" className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${cover}")` }}></div>
         <div className="book-shelf-changer">
-          <select defaultValue={currentShelf} onChange={(e) => onChangeShelf(e.target.value, id)}>
+          <select defaultValue={currentShelf} onChange={(e) => onChangeShelf(currentShelf, e.target.value, id)}>
             <option value="move" disabled>Move to...</option>
             <option
               value={BOOKSHELFS.CURRENTLY_READING}
