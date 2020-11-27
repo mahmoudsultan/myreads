@@ -13,7 +13,7 @@ const BookShelf = ({ title, shelfValue, books, onShelfChange }) => {
                   <BookCard
                     id={book.id}
                     title={book.title}
-                    author={book.author}
+                    authors={book.authors}
                     cover={book.cover}
                     currentShelf={shelfValue}
                     onChangeShelf={onShelfChange}
@@ -33,7 +33,7 @@ BookShelf.propTypes = {
   books: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    author: PropTypes.string,
+    authors: PropTypes.arrayOf(PropTypes.string),
     cover: PropTypes.string,
   })),
   onShelfChange: PropTypes.func.isRequired,

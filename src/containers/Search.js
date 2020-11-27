@@ -1,18 +1,37 @@
 import PropTypes from 'prop-types';
-
 import { useState } from 'react';
 
+import * as _ from 'lodash';
+
+import * as BookAPI from '../BooksAPI';
+
 import BookCard from '../components/BookCard';
+import SearchField from '../components/SearchField';
 
 const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) => {
-  const [searchResults, setSearchResults] = useState([
-    {
-      id: 'book-7',
-      title: 'The Adventures of Tom Sawyer',
-      author: 'Mark Twain',
-      cover: 'http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api',
+  const [searchResults, setSearchResults] = useState([]);
+
+  const onShelfChangeWithBookObject = (oldShelf, newShelf, bookId) => {
+    const book = _.find(searchResults, (book) => book.id === bookId);
+    onShelfChange(oldShelf, newShelf, book);
+  };
+
+  const formatBook = (bookFromAPI) => {
+    return {
+      ..._.pick(bookFromAPI, ['title', 'authors', 'id']),
+      cover: bookFromAPI.imageLinks.smallThumbnail,
+    };
+  };
+
+  const onSearchTermChange = async (searchTerm) => {
+    let results = [];
+    results = await BookAPI.search(searchTerm);
+    if (results.error) {
+      setSearchResults([]);
+    } else {
+      setSearchResults(results.map(formatBook));
     }
-  ]);
+  }
 
   return (
     <div className="search-books">
@@ -27,22 +46,23 @@ const Search = ({ getShelfNameForBook, onShelfChange, onShowBooksShelvesPage }) 
             However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
             you don't find a specific author or title. Every search is limited by search terms.
           */}
-          <input type="text" placeholder="Search by title or author"/>
-
+          <SearchField
+            onSearchTermChange={onSearchTermChange}
+          />
         </div>
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          { searchResults.map(book => {
+          { searchResults.length && searchResults.map(book => {
               return (
                 <li key={book.id}>
                   <BookCard
                     id={book.id}
                     title={book.title}
-                    author={book.author}
+                    authors={book.authors}
                     cover={book.cover}
                     currentShelf={getShelfNameForBook(book)}
-                    onChangeShelf={onShelfChange}
+                    onChangeShelf={onShelfChangeWithBookObject}
                   />
                 </li>
               );

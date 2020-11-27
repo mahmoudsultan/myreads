@@ -3,7 +3,7 @@ import { BOOKSHELFS } from '../constants';
 
 const UNKNOWN_AUTHOR_NAME = 'Unknown';
 
-const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => {
+const BookCard = ({ id, title, authors, currentShelf, cover, onChangeShelf }) => {
   return (
     <div role="gridcell" className="book">
       <div className="book-top">
@@ -38,7 +38,7 @@ const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => 
         </div>
       </div>
       <div role="heading" className="book-title">{ title }</div>
-      <div className="book-authors">{ author || UNKNOWN_AUTHOR_NAME }</div>
+      <div className="book-authors">{ (authors) ? authors.join(', ') : UNKNOWN_AUTHOR_NAME }</div>
     </div>
   );
 };
@@ -46,11 +46,10 @@ const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => 
 BookCard.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  author: PropTypes.string,
+  authors: PropTypes.arrayOf(PropTypes.string),
   cover: PropTypes.string,
   currentShelf: PropTypes.string,
   onChangeShelf: PropTypes.func,
-
 };
 
 BookCard.defaultProps = {
