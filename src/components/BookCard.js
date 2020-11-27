@@ -7,6 +7,7 @@ const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => 
   return (
     <div role="gridcell" className="book">
       <div className="book-top">
+        <div role="img" className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${cover}")` }}></div>
         <div className="book-shelf-changer">
           <select defaultValue={currentShelf} onChange={(e) => onChangeShelf(e.target.value, id)}>
             <option value="move" disabled>Move to...</option>
@@ -35,11 +36,9 @@ const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => 
             </option>
           </select>
         </div>
-        <div role="img" className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${cover}")` }}></div>
       </div>
-
-      <h1 role="heading" className="book-title">{ title }</h1>
-      <p className="book-author">{ author || UNKNOWN_AUTHOR_NAME }</p>
+      <div role="heading" className="book-title">{ title }</div>
+      <div className="book-authors">{ author || UNKNOWN_AUTHOR_NAME }</div>
     </div>
   );
 };
