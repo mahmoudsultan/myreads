@@ -4,6 +4,7 @@ import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
 
+import Search from './containers/Search';
 import BooksList from './components/BooksList';
 import { APP_TITLE, BOOKSHELFS } from './constants';
 
@@ -71,6 +72,18 @@ class BooksApp extends React.Component {
     return this.state[stateKey][bookId];
   }
 
+  getShelfNameForBook = (book) => {
+    if (this.state.currentlyReadingBooks[book.id]) {
+      return BOOKSHELFS.CURRENTLY_READING;
+    } else if (this.state.wantToReadBooks[book.id]) {
+      return BOOKSHELFS.WANT_TO_READ;
+    } else if (this.state.readBooks[book.id]) {
+      return BOOKSHELFS.READ;
+    } else {
+      return BOOKSHELFS.NONE;
+    }
+  }
+
   stateKeyFromShelfName(shelf) {
     switch(shelf) {
       case BOOKSHELFS.CURRENTLY_READING:
@@ -114,7 +127,11 @@ class BooksApp extends React.Component {
     }
   }
 
-  onShowSearchPage() {
+  onShowBooksShelvesPage  = () => {
+    this.setState({ showSearchPage: false });
+  }
+
+  onShowSearchPage = () => {
     this.setState({ showSearchPage: true })
   }
 
@@ -122,26 +139,11 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
+          <Search 
+            getShelfNameForBook={this.getShelfNameForBook}
+            onShelfChange={this.onShelfChange}
+            onShowBooksShelvesPage={this.onShowBooksShelvesPage}
+          />
         ) : (
           <BooksList
             appTitle={APP_TITLE}
