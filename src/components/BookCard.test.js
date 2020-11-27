@@ -105,28 +105,4 @@ describe('BookCard', () => {
 
     expect(screen.getByText('None')).toBeInstanceOf(Option);
   });
-
-  it('calls changeShelf with correct value on option click', () => {
-    const mockChangeShelf = jest.fn();
-
-    render(<BookCard
-      id={mockBookId}
-      title={mockBookTitle}
-      author={mockBookAuthor}
-      cover={mockBookThumbnail}
-      onChangeShelf={mockChangeShelf}
-    />);
-
-    fireEvent.click(screen.getByText('Currently Reading'));
-    expect(mockChangeShelf).toHaveBeenCalledWith(BOOKSHELFS.CURRENTLY_READING, mockBookId);
-
-    fireEvent.click(screen.getByText('Want to Read'));
-    expect(mockChangeShelf).toHaveBeenCalledWith(BOOKSHELFS.WANT_TO_READ, mockBookId);
-
-    fireEvent.click(screen.getByText('Read'));
-    expect(mockChangeShelf).toHaveBeenCalledWith(BOOKSHELFS.READ, mockBookId);
-
-    fireEvent.click(screen.getByText('None'));
-    expect(mockChangeShelf).toHaveBeenCalledWith(BOOKSHELFS.NONE, mockBookId);
-  });
 });

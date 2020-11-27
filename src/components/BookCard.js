@@ -3,35 +3,33 @@ import { BOOKSHELFS } from '../constants';
 
 const UNKNOWN_AUTHOR_NAME = 'Unknown';
 
-const BookCard = ({ id, title, author, cover, onChangeShelf }) => {
+const BookCard = ({ id, title, author, currentShelf, cover, onChangeShelf }) => {
   return (
     <div role="gridcell" className="book">
       <div className="book-top">
         <div className="book-shelf-changer">
-          <select>
+          <select defaultValue={currentShelf} onChange={(e) => onChangeShelf(e.target.value, id)}>
             <option value="move" disabled>Move to...</option>
-            <option 
-              onClick={() => onChangeShelf(BOOKSHELFS.CURRENTLY_READING, id)}
-              value="currentlyReading"
+            <option
+              value={BOOKSHELFS.CURRENTLY_READING}
             >
               Currently Reading
             </option>
 
             <option
-              onClick={() => onChangeShelf(BOOKSHELFS.WANT_TO_READ, id)}
-              value="wantToRead"
+              value={BOOKSHELFS.WANT_TO_READ}
             >
               Want to Read
             </option>
 
-            <option onClick={() => onChangeShelf(BOOKSHELFS.READ, id)}
-              value="read"
+            <option 
+              value={BOOKSHELFS.READ}
             >
               Read
             </option>
 
-            <option onClick={() => onChangeShelf(BOOKSHELFS.NONE, id)}
-              value="none"
+            <option 
+              value={BOOKSHELFS.NONE}
             >
               None
             </option>
@@ -51,6 +49,7 @@ BookCard.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string,
   cover: PropTypes.string,
+  currentShelf: PropTypes.string,
   onChangeShelf: PropTypes.func,
 
 };
