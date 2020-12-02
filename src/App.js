@@ -8,16 +8,7 @@ import Search from './containers/Search';
 import BooksList from './components/BooksList';
 import { APP_TITLE, BOOKSHELFS } from './constants';
 
-const useCachedState = (cacheKey, initialValue={}) => {
-  const cachedValue = localStorage.getItem(cacheKey);
-  const [state, setState] = useState(cachedValue ? JSON.parse(cachedValue) : initialValue);
-
-  useEffect(() => {
-    localStorage.setItem(cacheKey, JSON.stringify(state));
-  }, [cacheKey, state]);
-
-  return [state, setState];
-};
+import useCachedState from './hooks/useCachedState';
 
 const BooksApp = () => {
   const [currentlyReadingBooks, setCurrentlyReadingBooks] = useCachedState('currentlyReading', {});
